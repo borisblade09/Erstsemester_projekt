@@ -83,12 +83,21 @@ void loop() {
   }
 
   
-  if (RemoteXY.button_01 != 0) {
-    digitalWrite(Solenoid_Pin, HIGH); 
-    delay(100);                       
-    digitalWrite(Solenoid_Pin, LOW);
-  }
+ static bool isShooting = false; 
 
+  if (RemoteXY.button_01 != 0) {
+    if (isShooting == false) {
+      
+      digitalWrite(Solenoid_Pin, HIGH); 
+      delay(100);                       
+      digitalWrite(Solenoid_Pin, LOW);  
+      
+      isShooting = true;
+    }
+    
+  } else {
+    isShooting = false; 
+  }
 
   int frontValue = analogRead(Sensor_Front_Pin);
   int backValue = analogRead(Sensor_Back_Pin);
